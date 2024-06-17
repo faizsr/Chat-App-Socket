@@ -1,5 +1,5 @@
-import 'package:chat_app_using_socket/src/feature/auth/presentation/blocs/auth/auth_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/auth/presentation/views/sign_in/sign_in_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/sign_in/sign_in_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

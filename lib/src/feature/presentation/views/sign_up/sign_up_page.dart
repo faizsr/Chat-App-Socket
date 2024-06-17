@@ -1,5 +1,5 @@
-import 'package:chat_app_using_socket/src/feature/auth/domain/entities/user_entity.dart';
-import 'package:chat_app_using_socket/src/feature/auth/presentation/blocs/auth/auth_bloc.dart';
+import 'package:chat_app_using_socket/src/feature/domain/entities/user_entity.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

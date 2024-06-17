@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:chat_app_using_socket/src/feature/auth/domain/entities/user_entity.dart';
-import 'package:chat_app_using_socket/src/feature/auth/domain/use_cases/sign_in_usecase.dart';
-import 'package:chat_app_using_socket/src/feature/auth/domain/use_cases/sign_up_usecase.dart';
+import 'package:chat_app_using_socket/src/feature/domain/entities/user_entity.dart';
+import 'package:chat_app_using_socket/src/feature/domain/use_cases/sign_in_usecase.dart';
+import 'package:chat_app_using_socket/src/feature/domain/use_cases/sign_up_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

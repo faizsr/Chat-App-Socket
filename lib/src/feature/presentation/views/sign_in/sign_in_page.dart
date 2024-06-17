@@ -1,9 +1,9 @@
 import 'dart:developer';
 
-import 'package:chat_app_using_socket/src/feature/auth/domain/entities/user_entity.dart';
-import 'package:chat_app_using_socket/src/feature/auth/presentation/blocs/auth/auth_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/auth/presentation/views/chat_list/chat_list_page.dart';
-import 'package:chat_app_using_socket/src/feature/auth/presentation/views/sign_up/sign_up_page.dart';
+import 'package:chat_app_using_socket/src/feature/domain/entities/user_entity.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat_list/chat_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/sign_up/sign_up_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
