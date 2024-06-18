@@ -1,6 +1,8 @@
+import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/session/session_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/websocket/websocket_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/views/chats/chats_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +27,17 @@ class _ChatListPageState extends State<ChatListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chats'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const SignInPage(),
+              ));
+              UserAuthStatus.saveUserStatus(false);
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
       body: BlocBuilder<SessionBloc, SessionState>(
         builder: (context, state) {

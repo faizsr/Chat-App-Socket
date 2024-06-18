@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "212406031535",
-    "project_id": "chat-app-df249",
-    "storage_bucket": "chat-app-df249.appspot.com"
+    "project_number": "37480233620",
+    "project_id": "websocket-chat-app-46bfe",
+    "storage_bucket": "websocket-chat-app-46bfe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:212406031535:android:0b9337b1dc84198bb1f05a",
+        "mobilesdk_app_id": "1:37480233620:android:11257101f8a1659fae5281",
         "android_client_info": {
           "package_name": "com.example.chat_app_using_socket"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC5dic42B1qDLBokZhn6HmLimmLCEg5LlA"
+          "current_key": "AIzaSyBSFSDWPCTWVYW4eNqbvS3j3nKJXHvglWI"
         }
       ],
       "services": {

@@ -1,6 +1,8 @@
+import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/session/session_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/websocket/websocket_bloc.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/chat_list_page.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +14,30 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isLoggedIn = false;
+  dynamic page = const SignInPage();
+
+  @override
+  void initState() {
+    checkUserStatus();
+    super.initState();
+  }
+
+  Future<void> checkUserStatus() async {
+    isLoggedIn = await UserAuthStatus.getUserStatus();
+    if (isLoggedIn) {
+      page = const ChatListPage();
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +57,11 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Chat App Using Socket',
         theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const SignInPage(),
+        home: page,
       ),
     );
   }
