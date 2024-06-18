@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chat_app_using_socket/src/feature/data/models/message/message_model.dart';
+import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/websocket/websocket_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,13 +9,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatsPage extends StatefulWidget {
-  const ChatsPage({super.key});
+  final SessionModel session;
+  const ChatsPage({
+    super.key,
+    required this.session,
+  });
 
   @override
   State<ChatsPage> createState() => _ChatsPageState();
 }
 
 class _ChatsPageState extends State<ChatsPage> {
+  @override
+  void initState() {
+    BlocProvider.of<WebsocketBloc>(context)
+        .add(GetInitialMessageEvent(sessionId: widget.session.id));
+    super.initState();
+  }
+
   final messageTextController = TextEditingController();
 
   @override
@@ -79,6 +91,7 @@ class _ChatsPageState extends State<ChatsPage> {
                   IconButton(
                     onPressed: () {
                       final message = MessageModel(
+                        sessionId: widget.session.id,
                         userId: FirebaseAuth.instance.currentUser?.uid ?? '',
                         message: messageTextController.text,
                         timeStamp: DateTime.now().toString(),

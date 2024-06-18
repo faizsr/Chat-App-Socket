@@ -5,6 +5,7 @@ import 'package:chat_app_using_socket/src/feature/data/data_sources/network/web_
 import 'package:chat_app_using_socket/src/feature/data/data_sources/network/web_socket_data_source_impl.dart';
 import 'package:chat_app_using_socket/src/feature/data/data_sources/remote/firebase_remote_data_source.dart';
 import 'package:chat_app_using_socket/src/feature/data/data_sources/remote/firebase_remote_data_source_impl.dart';
+import 'package:chat_app_using_socket/src/feature/data/models/message/message_model.dart';
 import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
 import 'package:chat_app_using_socket/src/feature/data/repositories/firebase_repository_impl.dart';
 import 'package:chat_app_using_socket/src/feature/data/repositories/hive_repository_impl.dart';
@@ -14,6 +15,8 @@ import 'package:chat_app_using_socket/src/feature/domain/repositories/hive_repos
 import 'package:chat_app_using_socket/src/feature/domain/repositories/web_socket_repository.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/auth/sign_in_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/auth/sign_up_usecase.dart';
+import 'package:chat_app_using_socket/src/feature/domain/use_cases/chat/add_new_message_usecase.dart';
+import 'package:chat_app_using_socket/src/feature/domain/use_cases/chat/get_all_message.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/session/create_session_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/session/get_session_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/web_socket/connect_web_socket_usecase.dart';
@@ -40,6 +43,7 @@ Future<void> init() async {
   await Hive.initFlutter();
   //Register Hive Adapter
   Hive.registerAdapter(SessionModelAdapter());
+  Hive.registerAdapter(MessageModelAdapter());
 
   //Future bloc
   sl.registerFactory<AuthBloc>(
@@ -56,10 +60,13 @@ Future<void> init() async {
   );
   sl.registerFactory<WebsocketBloc>(
     () => WebsocketBloc(
-        connectWebSocketUsecase: sl.call(),
-        disconnectWebSocketUsecase: sl.call(),
-        sendMessageUsecase: sl.call(),
-        receiveMessageUsecase: sl.call()),
+      connectWebSocketUsecase: sl.call(),
+      disconnectWebSocketUsecase: sl.call(),
+      sendMessageUsecase: sl.call(),
+      receiveMessageUsecase: sl.call(),
+      addNewMessageUsecase: sl.call(),
+      getAllMessageUsecase: sl.call(),
+    ),
   );
 
   //UseCases
@@ -72,6 +79,11 @@ Future<void> init() async {
       () => CreateSessionUsecase(hiveRepository: sl.call()));
   sl.registerLazySingleton<GetAllSessionUsecase>(
       () => GetAllSessionUsecase(hiveRepository: sl.call()));
+
+  sl.registerLazySingleton<AddNewMessageUsecase>(
+      () => AddNewMessageUsecase(hiveRepository: sl.call()));
+  sl.registerLazySingleton<GetAllMessageUsecase>(
+      () => GetAllMessageUsecase(hiveRepository: sl.call()));
 
   sl.registerLazySingleton<ConnectWebSocketUsecase>(
       () => ConnectWebSocketUsecase(webSocketRepository: sl.call()));

@@ -1,4 +1,5 @@
 import 'package:chat_app_using_socket/src/feature/data/data_sources/local/hive_local_data_source.dart';
+import 'package:chat_app_using_socket/src/feature/data/models/message/message_model.dart';
 import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
 import 'package:chat_app_using_socket/src/feature/domain/repositories/hive_repository.dart';
 
@@ -14,4 +15,14 @@ class HiveRepositoryImpl extends HiveRepository {
   @override
   Future<List<SessionModel>> getAllSession() async =>
       await hiveLocalDataSource.getAllSession();
+
+  @override
+  Future<void> addNewMessage(MessageModel message) async {
+    await hiveLocalDataSource.addNewMessage(message);
+  }
+
+  @override
+  Future<List<MessageModel>> getAllMessages(String sessionId) async {
+    return hiveLocalDataSource.getAllMessages(sessionId);
+  }
 }

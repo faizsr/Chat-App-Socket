@@ -22,3 +22,11 @@ final class ReceiveMessaegEvent extends WebsocketEvent {
     required this.message,
   });
 }
+
+final class GetInitialMessageEvent extends WebsocketEvent {
+  final String sessionId;
+
+  GetInitialMessageEvent({
+    required this.sessionId,
+  });
+}

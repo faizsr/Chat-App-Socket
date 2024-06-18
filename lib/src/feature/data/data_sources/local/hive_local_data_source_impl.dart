@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:chat_app_using_socket/src/feature/data/data_sources/local/hive_local_data_source.dart';
+import 'package:chat_app_using_socket/src/feature/data/models/message/message_model.dart';
 import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hive/hive.dart';
@@ -29,5 +30,22 @@ class HiveLocalDataSourceImpl implements HiveLocalDataSource {
     log('Retrieving all sessions');
     final sessionBox = await Hive.openBox<SessionModel>('${userId}_session');
     return sessionBox.values.toList();
+  }
+
+  @override
+  Future<void> addNewMessage(MessageModel message) async {
+    final messageBox =
+        await Hive.openBox<MessageModel>('${message.sessionId}_messages');
+    log('Adding new message to hive in box: ${message.sessionId}_messages');
+    messageBox.add(message);
+    log('After adding message length: ${messageBox.values.toList().length}');
+  }
+
+  @override
+  Future<List<MessageModel>> getAllMessages(String sessionId) async {
+    final messageBox =
+        await Hive.openBox<MessageModel>('${sessionId}_messages');
+    log('Get All Initial Messages ${messageBox.values.toList().length}');
+    return messageBox.values.toList();
   }
 }

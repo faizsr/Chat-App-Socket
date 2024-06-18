@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:chat_app_using_socket/src/feature/data/models/message/message_model.dart';
+import 'package:chat_app_using_socket/src/feature/domain/use_cases/chat/add_new_message_usecase.dart';
+import 'package:chat_app_using_socket/src/feature/domain/use_cases/chat/get_all_message.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/web_socket/connect_web_socket_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/web_socket/disconnect_web_socket_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/web_socket/receive_message_usecase.dart';
@@ -19,6 +21,9 @@ class WebsocketBloc extends Bloc<WebsocketEvent, WebsocketState> {
   final SendMessageUsecase sendMessageUsecase;
   final ReceiveMessageUsecase receiveMessageUsecase;
 
+  final AddNewMessageUsecase addNewMessageUsecase;
+  final GetAllMessageUsecase getAllMessageUsecase;
+
   final List<MessageModel> _messages = [];
 
   WebsocketBloc({
@@ -26,11 +31,14 @@ class WebsocketBloc extends Bloc<WebsocketEvent, WebsocketState> {
     required this.disconnectWebSocketUsecase,
     required this.sendMessageUsecase,
     required this.receiveMessageUsecase,
+    required this.addNewMessageUsecase,
+    required this.getAllMessageUsecase,
   }) : super(WebsocketInitial()) {
     on<ConnectWebSocketEvent>(connectWebSocketEvent);
     on<DisconnectWebSocketEvent>(disconnectWebSocketEvent);
     on<SendMessageEvent>(sendMessageEvent);
     on<ReceiveMessaegEvent>(receiveMessaegEvent);
+    on<GetInitialMessageEvent>(getInitialMessageEvent);
   }
 
   FutureOr<void> connectWebSocketEvent(
@@ -66,6 +74,7 @@ class WebsocketBloc extends Bloc<WebsocketEvent, WebsocketState> {
       SendMessageEvent event, Emitter<WebsocketState> emit) async {
     await sendMessageUsecase.call(event.message);
     _messages.add(event.message);
+    addNewMessageUsecase.call(event.message);
     log('is closed $isClosed');
     emit(MessageReceivedState(messages: _messages));
   }
@@ -73,7 +82,17 @@ class WebsocketBloc extends Bloc<WebsocketEvent, WebsocketState> {
   FutureOr<void> receiveMessaegEvent(
       ReceiveMessaegEvent event, Emitter<WebsocketState> emit) async {
     _messages.add(event.message);
+    addNewMessageUsecase.call(event.message);
     log('is closed $isClosed');
     emit(MessageReceivedState(messages: _messages));
+  }
+
+  FutureOr<void> getInitialMessageEvent(
+      GetInitialMessageEvent event, Emitter<WebsocketState> emit) async {
+    _messages.clear();
+    List<MessageModel> messages =
+        await getAllMessageUsecase.call(event.sessionId);
+    _messages.addAll(messages);
+    emit(MessageReceivedState(messages: messages));
   }
 }

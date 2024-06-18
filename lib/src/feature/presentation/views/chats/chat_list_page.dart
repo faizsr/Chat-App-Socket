@@ -39,7 +39,7 @@ class _ChatListPageState extends State<ChatListPage> {
                   subtitle: Text(session.id),
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ChatsPage(),
+                      builder: (context) => ChatsPage(session: session),
                     ));
                   },
                 );
@@ -55,7 +55,7 @@ class _ChatListPageState extends State<ChatListPage> {
         onPressed: () {
           final id = DateTime.now().millisecondsSinceEpoch.toString();
           BlocProvider.of<SessionBloc>(context)
-            ..add(CreateSessionEvent(id: id, name: 'Session 5'))
+            ..add(CreateSessionEvent(id: id, name: 'Session 6'))
             ..add(GetAllSessionEvent());
         },
         child: const Icon(CupertinoIcons.add),
