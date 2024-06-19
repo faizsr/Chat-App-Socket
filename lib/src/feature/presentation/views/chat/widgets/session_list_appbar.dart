@@ -80,5 +80,62 @@ class SessionListAppbar extends StatelessWidget {
         ],
       ),
     );
+    // return AppBar(
+    //   forceMaterialTransparency: true,
+    //   elevation: 1,
+    //   shadowColor: Colors.black,
+    //   toolbarHeight: 70,
+    //   backgroundColor: Colors.white,
+    //   title: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: [
+    //       const Text(
+    //         'Hello,',
+    //         style: TextStyle(fontSize: 14, color: Colors.black54),
+    //       ),
+    //       StreamBuilder(
+    //         stream: FirebaseFirestore.instance
+    //             .collection('users')
+    //             .doc(FirebaseAuth.instance.currentUser!.uid)
+    //             .snapshots(),
+    //         builder: (context, snapshot) {
+    //           if (snapshot.hasData) {
+    //             return Text(
+    //               snapshot.data!['fullname'].toString().split(' ').toList()[0],
+    //               style: const TextStyle(fontSize: 25),
+    //             );
+    //           }
+    //           return const SizedBox();
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    //   actions: [
+    // IconButton(
+    //   onPressed: () {
+    //     CreateSession.showCreateDialog(context, textController);
+    //   },
+    //   icon: const Icon(CupertinoIcons.add, size: 25),
+    // ),
+    // IconButton(
+    //   onPressed: () {
+    //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //       builder: (context) => const SignInPage(),
+    //     ));
+    //     UserAuthStatus.saveUserStatus(false);
+    //     BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
+    //     BlocProvider.of<WebsocketBloc>(context)
+    //         .add(DisconnectWebSocketEvent());
+    //   },
+    //   icon: const Icon(Icons.logout),
+    // ),
+    //   ],
+    //   bottom: const PreferredSize(
+    //     preferredSize: Size.fromHeight(2),
+    //     child: Divider(
+    //       color: Colors.black12,
+    //     ),
+    //   ),
+    // );
   }
 }

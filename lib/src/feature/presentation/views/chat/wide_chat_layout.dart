@@ -32,7 +32,7 @@ class _WideChatLayoutState extends State<WideChatLayout> {
           ),
           VerticalDivider(
             color: Colors.grey[300],
-            width: 0,
+            width: 1,
           ),
           Expanded(
             flex: 2,

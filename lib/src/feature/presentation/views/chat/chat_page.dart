@@ -31,12 +31,14 @@ class _ChatPageState extends State<ChatPage> {
         .add(GetInitialMessageEvent(sessionId: widget.session!.id));
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: widget.isPhone ? 60 : 80,
         forceMaterialTransparency: true,
         elevation: 1,
         shadowColor: Colors.black,
         backgroundColor: Colors.white,
         title: Text(widget.session?.name ?? ''),
         titleSpacing: 0,
+        leadingWidth: widget.isPhone ? 50 : 20,
         leading: widget.isPhone
             ? IconButton(
                 onPressed: () {
@@ -44,7 +46,7 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 icon: const Icon(CupertinoIcons.arrow_left),
               )
-            : null,
+            : const SizedBox(),
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(2),
           child: Divider(
