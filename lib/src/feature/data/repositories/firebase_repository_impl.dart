@@ -18,4 +18,9 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
     log('Repository Calling');
     await firebaseRemoteDataSource.signUpUser(user);
   }
+
+  @override
+  Future<void> signOut() async {
+    await firebaseRemoteDataSource.signOutUser();
+  }
 }

@@ -14,6 +14,7 @@ import 'package:chat_app_using_socket/src/feature/domain/repositories/firebase_r
 import 'package:chat_app_using_socket/src/feature/domain/repositories/hive_repository.dart';
 import 'package:chat_app_using_socket/src/feature/domain/repositories/web_socket_repository.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/auth/sign_in_usecase.dart';
+import 'package:chat_app_using_socket/src/feature/domain/use_cases/auth/sign_out_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/auth/sign_up_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/chat/add_new_message_usecase.dart';
 import 'package:chat_app_using_socket/src/feature/domain/use_cases/chat/get_all_message.dart';
@@ -50,6 +51,7 @@ Future<void> init() async {
     () => AuthBloc(
       signInUsecase: sl.call(),
       signUpUsecase: sl.call(),
+      signOutUsecase: sl.call(),
     ),
   );
   sl.registerFactory<SessionBloc>(
@@ -74,6 +76,8 @@ Future<void> init() async {
       () => SignInUsecase(firebaseRepository: sl.call()));
   sl.registerLazySingleton<SignUpUsecase>(
       () => SignUpUsecase(firebaseRepository: sl.call()));
+  sl.registerLazySingleton<SignOutUsecase>(
+      () => SignOutUsecase(firebaseRepository: sl.call()));
 
   sl.registerLazySingleton<CreateSessionUsecase>(
       () => CreateSessionUsecase(hiveRepository: sl.call()));

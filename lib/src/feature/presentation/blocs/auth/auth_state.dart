@@ -16,3 +16,5 @@ final class SignInLoadingState extends AuthState {}
 final class SignInSuccessState extends AuthState {}
 
 final class SignInErrorState extends AuthState {}
+
+final class SignOutSuccessState extends AuthState {}

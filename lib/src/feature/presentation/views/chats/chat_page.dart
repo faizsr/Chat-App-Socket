@@ -8,38 +8,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatsPage extends StatefulWidget {
-  final SessionModel session;
-  const ChatsPage({
+class ChatPage extends StatefulWidget {
+  final SessionModel? session;
+  final bool isPhone;
+  const ChatPage({
     super.key,
-    required this.session,
+    this.session,
+    this.isPhone = false,
   });
 
   @override
-  State<ChatsPage> createState() => _ChatsPageState();
+  State<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatsPageState extends State<ChatsPage> {
-  @override
-  void initState() {
-    BlocProvider.of<WebsocketBloc>(context)
-        .add(GetInitialMessageEvent(sessionId: widget.session.id));
-    super.initState();
-  }
-
+class _ChatPageState extends State<ChatPage> {
   final messageTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<WebsocketBloc>(context)
+        .add(GetInitialMessageEvent(sessionId: widget.session!.id));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Username'),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(CupertinoIcons.arrow_left),
-        ),
+        title: Text(widget.session?.name ?? ''),
+        leading: widget.isPhone
+            ? IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(CupertinoIcons.arrow_left),
+              )
+            : null,
       ),
       body: Stack(
         children: [
@@ -91,7 +90,7 @@ class _ChatsPageState extends State<ChatsPage> {
                   IconButton(
                     onPressed: () {
                       final message = MessageModel(
-                        sessionId: widget.session.id,
+                        sessionId: widget.session!.id,
                         userId: FirebaseAuth.instance.currentUser?.uid ?? '',
                         message: messageTextController.text,
                         timeStamp: DateTime.now().toString(),

@@ -4,7 +4,9 @@ import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
 import 'package:chat_app_using_socket/src/config/utils/validation.dart';
 import 'package:chat_app_using_socket/src/feature/domain/entities/user_entity.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/chat_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/session_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/wide_chat_layout.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/responsive_widget.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_filled_button.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_text_button.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_text_field.dart';
@@ -118,7 +120,10 @@ class _SignUpPageState extends State<SignUpPage> {
     if (state is SignUpSuccessState) {
       log('Sign Up Success Navigating to Chat List Page');
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => const ChatListPage(),
+        builder: (context) => ResponsiveWidget(
+          smallScreen: SessionListPage(onSessionSelected: (val) {}),
+          largeScreen: const WideChatLayout(),
+        ),
       ));
       UserAuthStatus.saveUserStatus(true);
     }

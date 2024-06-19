@@ -1,20 +1,30 @@
 import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
+import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/session/session_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/websocket/websocket_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/chats_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/chat_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/widgets/create_session_dialog.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatListPage extends StatefulWidget {
-  const ChatListPage({super.key});
+class SessionListPage extends StatefulWidget {
+  final Function(SessionModel) onSessionSelected;
+
+  const SessionListPage({
+    super.key,
+    required this.onSessionSelected,
+  });
 
   @override
-  State<ChatListPage> createState() => _ChatListPageState();
+  State<SessionListPage> createState() => _SessionListPageState();
 }
 
-class _ChatListPageState extends State<ChatListPage> {
+class _SessionListPageState extends State<SessionListPage> {
+  final textController = TextEditingController();
+
   @override
   void initState() {
     BlocProvider.of<SessionBloc>(context).add(GetAllSessionEvent());
@@ -34,6 +44,9 @@ class _ChatListPageState extends State<ChatListPage> {
                 builder: (context) => const SignInPage(),
               ));
               UserAuthStatus.saveUserStatus(false);
+              BlocProvider.of<AuthBloc>(context).add(SignOutEvent());
+              BlocProvider.of<WebsocketBloc>(context)
+                  .add(DisconnectWebSocketEvent());
             },
             icon: const Icon(Icons.logout),
           ),
@@ -51,9 +64,16 @@ class _ChatListPageState extends State<ChatListPage> {
                   title: Text(session.name),
                   subtitle: Text(session.id),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChatsPage(session: session),
-                    ));
+                    if (MediaQuery.of(context).size.width > 700) {
+                      widget.onSessionSelected(session);
+                    } else {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ChatPage(
+                          session: session,
+                          isPhone: true,
+                        ),
+                      ));
+                    }
                   },
                 );
               },
@@ -66,10 +86,7 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final id = DateTime.now().millisecondsSinceEpoch.toString();
-          BlocProvider.of<SessionBloc>(context)
-            ..add(CreateSessionEvent(id: id, name: 'Session 6'))
-            ..add(GetAllSessionEvent());
+          CreateSession.showCreateDialog(context, textController);
         },
         child: const Icon(CupertinoIcons.add),
       ),

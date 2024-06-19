@@ -14,3 +14,5 @@ final class SignInEvent extends AuthEvent {
 
   SignInEvent({required this.user});
 }
+
+final class SignOutEvent extends AuthEvent {}

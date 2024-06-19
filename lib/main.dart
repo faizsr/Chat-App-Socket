@@ -2,7 +2,9 @@ import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/session/session_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/websocket/websocket_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/chat_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/session_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/wide_chat_layout.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chats/responsive_widget.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +36,10 @@ class _MyAppState extends State<MyApp> {
   Future<void> checkUserStatus() async {
     isLoggedIn = await UserAuthStatus.getUserStatus();
     if (isLoggedIn) {
-      page = const ChatListPage();
+      page = ResponsiveWidget(
+        smallScreen: SessionListPage(onSessionSelected: (val) {}),
+        largeScreen: const WideChatLayout(),
+      );
       setState(() {});
     }
   }
@@ -58,8 +63,6 @@ class _MyAppState extends State<MyApp> {
         title: 'Chat App Using Socket',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
         ),
         home: page,
       ),
