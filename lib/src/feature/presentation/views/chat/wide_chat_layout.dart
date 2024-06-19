@@ -1,6 +1,6 @@
 import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/session_list_page.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/chat_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class WideChatLayout extends StatefulWidget {
@@ -32,6 +32,7 @@ class _WideChatLayoutState extends State<WideChatLayout> {
           ),
           VerticalDivider(
             color: Colors.grey[300],
+            width: 0,
           ),
           Expanded(
             flex: 2,

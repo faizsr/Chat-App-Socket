@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 class CustomFilledButton extends StatelessWidget {
   final void Function()? onPressed;
   final String btnText;
-  final AuthState state;
+  final AuthState? state;
 
-  const CustomFilledButton(
-      {super.key,
-      required this.onPressed,
-      required this.btnText,
-      required this.state});
+  const CustomFilledButton({
+    super.key,
+    required this.onPressed,
+    required this.btnText,
+    this.state,
+  });
 
   @override
   Widget build(BuildContext context) {

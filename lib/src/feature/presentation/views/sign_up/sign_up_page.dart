@@ -4,9 +4,9 @@ import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
 import 'package:chat_app_using_socket/src/config/utils/validation.dart';
 import 'package:chat_app_using_socket/src/feature/domain/entities/user_entity.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/session_list_page.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/wide_chat_layout.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chats/responsive_widget.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/wide_chat_layout.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/responsive_widget.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_filled_button.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_text_button.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_text_field.dart';
@@ -29,89 +29,87 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(),
-        body: LayoutBuilder(
-          builder: (context, constraints) {
-            bool isPhone = constraints.maxWidth < 600;
-
-            return BlocConsumer<AuthBloc, AuthState>(
-              listener: authListener,
-              builder: (context, state) {
-                return Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(20.0),
-                    constraints: BoxConstraints(
-                      maxWidth: isPhone ? double.infinity : 550,
-                    ),
-                    child: Form(
-                      key: formkey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Create Account?',
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w500,
-                              ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          bool isPhone = constraints.maxWidth < 600;
+    
+          return BlocConsumer<AuthBloc, AuthState>(
+            listener: authListener,
+            builder: (context, state) {
+              return Center(
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  constraints: BoxConstraints(
+                    maxWidth: isPhone ? double.infinity : 550,
+                  ),
+                  child: Form(
+                    key: formkey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Create Account?',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          CustomTextField(
-                            validator: nameValidator,
-                            controller: nameController,
-                            hintText: 'Full name',
-                          ),
-                          const SizedBox(height: 15),
-                          CustomTextField(
-                            validator: emailValidator,
-                            controller: emailController,
-                            hintText: 'Email Address',
-                          ),
-                          const SizedBox(height: 15),
-                          CustomTextField(
-                            validator: passwordValidator,
-                            controller: passwordController,
-                            hintText: 'Password',
-                          ),
-                          const SizedBox(height: 20),
-                          CustomFilledButton(
-                            state: state,
-                            onPressed: () {
-                              if (formkey.currentState!.validate()) {
-                                final user = UserEntity(
-                                  fullName: nameController.text,
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                  profilePhote: nameController.text[0],
-                                );
-
-                                BlocProvider.of<AuthBloc>(context)
-                                    .add(SignUpEvent(user: user));
-                              }
-                            },
-                            btnText: 'Sign In',
-                          ),
-                          const Spacer(),
-                          CustomTextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            btnText: "Already have an account? Sign In?",
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          validator: nameValidator,
+                          controller: nameController,
+                          hintText: 'Full name',
+                        ),
+                        const SizedBox(height: 15),
+                        CustomTextField(
+                          validator: emailValidator,
+                          controller: emailController,
+                          hintText: 'Email Address',
+                        ),
+                        const SizedBox(height: 15),
+                        CustomTextField(
+                          validator: passwordValidator,
+                          controller: passwordController,
+                          hintText: 'Password',
+                        ),
+                        const SizedBox(height: 20),
+                        CustomFilledButton(
+                          state: state,
+                          onPressed: () {
+                            if (formkey.currentState!.validate()) {
+                              final user = UserEntity(
+                                fullName: nameController.text,
+                                email: emailController.text,
+                                password: passwordController.text,
+                                profilePhote: nameController.text[0],
+                              );
+    
+                              BlocProvider.of<AuthBloc>(context)
+                                  .add(SignUpEvent(user: user));
+                            }
+                          },
+                          btnText: 'Sign In',
+                        ),
+                        const Spacer(),
+                        CustomTextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          btnText: "Already have an account? Sign In?",
+                        ),
+                      ],
                     ),
                   ),
-                );
-              },
-            );
-          },
-        ),
+                ),
+              );
+            },
+          );
+        },
       ),
     );
   }
