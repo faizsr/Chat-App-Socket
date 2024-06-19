@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
   final SessionModel? session;
@@ -35,6 +36,7 @@ class _ChatPageState extends State<ChatPage> {
         shadowColor: Colors.black,
         backgroundColor: Colors.white,
         title: Text(widget.session?.name ?? ''),
+        titleSpacing: 0,
         leading: widget.isPhone
             ? IconButton(
                 onPressed: () {
@@ -57,26 +59,15 @@ class _ChatPageState extends State<ChatPage> {
               if (state is MessageReceivedState) {
                 log('Message Received Length: ${state.messages.length}');
                 state.messages;
-                return ListView.builder(
+                return ListView.separated(
+                  physics: const BouncingScrollPhysics(),
                   itemCount: state.messages.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 10),
                   itemBuilder: (context, index) {
-                    return Align(
-                      alignment: index % 2 == 0
-                          ? Alignment.centerRight
-                          : Alignment.centerLeft,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.redAccent,
-                        ),
-                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
-                        ),
-                        child: Text(state.messages[index].message),
-                      ),
-                    );
+                    return index % 2 == 0
+                        ? sendCard(state.messages[index])
+                        : replyCard(state.messages[index]);
                   },
                 );
               }
@@ -90,32 +81,109 @@ class _ChatPageState extends State<ChatPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextFormField(
-                      controller: messageTextController,
-                      decoration: const InputDecoration(
-                        hintText: 'Write here...',
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: TextFormField(
+                        controller: messageTextController,
+                        decoration: const InputDecoration(
+                            hintText: 'Write here...',
+                            border: InputBorder.none),
                       ),
                     ),
                   ),
                   IconButton(
+                    color: Colors.white,
+                    style: IconButton.styleFrom(
+                      backgroundColor: const Color(0xFF0071bd),
+                    ),
                     onPressed: () {
-                      final message = MessageModel(
-                        sessionId: widget.session!.id,
-                        userId: FirebaseAuth.instance.currentUser?.uid ?? '',
-                        message: messageTextController.text,
-                        timeStamp: DateTime.now().toString(),
-                      );
-                      log('Message: ${message.userId}, ${message.message}, ${message.timeStamp}');
+                      if (messageTextController.text.isNotEmpty) {
+                        final message = MessageModel(
+                          sessionId: widget.session!.id,
+                          userId: FirebaseAuth.instance.currentUser?.uid ?? '',
+                          message: messageTextController.text,
+                          timeStamp: DateTime.now().toString(),
+                        );
+                        log('Message: ${message.userId}, ${message.message}, ${message.timeStamp}');
 
-                      BlocProvider.of<WebsocketBloc>(context)
-                          .add(SendMessageEvent(message: message));
+                        BlocProvider.of<WebsocketBloc>(context)
+                            .add(SendMessageEvent(message: message));
 
-                      messageTextController.clear();
+                        messageTextController.clear();
+                      }
                     },
                     icon: const Icon(CupertinoIcons.arrow_right),
                   )
                 ],
               ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget sendCard(MessageModel message) {
+    final formattedTime =
+        DateFormat('h:mm a').format(DateTime.tryParse(message.timeStamp)!);
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            formattedTime,
+            style: const TextStyle(
+              height: 1,
+              fontSize: 12,
+              color: Colors.black54,
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFF0071bd).withOpacity(0.8),
+            ),
+            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 15,
+            ),
+            child: Text(
+              message.message,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget replyCard(MessageModel message) {
+    final formattedTime =
+        DateFormat('h:mm a').format(DateTime.tryParse(message.timeStamp)!);
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xFF0071bd).withOpacity(0.1),
+            ),
+            margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 15,
+            ),
+            child: Text(message.message),
+          ),
+          Text(
+            formattedTime,
+            style: const TextStyle(
+              height: 1,
+              fontSize: 12,
+              color: Colors.black54,
             ),
           )
         ],

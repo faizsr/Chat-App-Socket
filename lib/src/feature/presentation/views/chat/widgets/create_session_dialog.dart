@@ -14,6 +14,7 @@ class CreateSession {
         ..add(CreateSessionEvent(id: id, name: textController.text))
         ..add(GetAllSessionEvent());
       Navigator.of(context).pop();
+      textController.clear();
     }
 
     showDialog(
@@ -62,11 +63,13 @@ class CreateSession {
                   children: [
                     Expanded(
                       child: actionButton(
-                        color: const Color(0xFF0071bd).withOpacity(0.1),
-                        context: context,
-                        text: 'Cancel',
-                        onTap: () => Navigator.pop(context),
-                      ),
+                          color: const Color(0xFF0071bd).withOpacity(0.1),
+                          context: context,
+                          text: 'Cancel',
+                          onTap: () {
+                            Navigator.pop(context);
+                            textController.clear();
+                          }),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
