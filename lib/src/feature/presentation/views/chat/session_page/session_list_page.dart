@@ -1,8 +1,8 @@
 import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/session/session_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/websocket/websocket_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/widgets/session_list_appbar.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/widgets/session_list_tile.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_page/widgets/session_list_appbar.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_page/widgets/session_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

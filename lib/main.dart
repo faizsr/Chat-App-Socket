@@ -1,10 +1,10 @@
-import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
+import 'package:chat_app_using_socket/src/feature/data/data_sources/local/sf_auth_status.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/session/session_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/websocket/websocket_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_page/session_list_page.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/views/chat/wide_chat_layout.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/responsive_widget.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/widgets/responsive_widget.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/views/sign_in/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

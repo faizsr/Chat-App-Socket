@@ -1,5 +1,6 @@
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/session/session_bloc.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_text_field.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/widgets/dialog_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -62,18 +63,19 @@ class CreateSession {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: actionButton(
-                          color: const Color(0xFF0071bd).withOpacity(0.1),
-                          context: context,
-                          text: 'Cancel',
-                          onTap: () {
-                            Navigator.pop(context);
-                            textController.clear();
-                          }),
+                      child: DialogButton(
+                        color: const Color(0xFF0071bd).withOpacity(0.1),
+                        context: context,
+                        text: 'Cancel',
+                        onTap: () {
+                          Navigator.pop(context);
+                          textController.clear();
+                        },
+                      ),
                     ),
                     const SizedBox(width: 20),
                     Expanded(
-                      child: actionButton(
+                      child: DialogButton(
                         context: context,
                         color: const Color(0xFF0071bd),
                         onTap: onCreatePressed,
@@ -84,36 +86,6 @@ class CreateSession {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  static Container actionButton({
-    required BuildContext context,
-    required String text,
-    required Color color,
-    required void Function()? onTap,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      height: 45,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(5),
-        highlightColor: Colors.grey[200],
-        onTap: onTap,
-        child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.normal,
-              color: text == 'Cancel' ? Colors.black : Colors.white,
-            ),
           ),
         ),
       ),

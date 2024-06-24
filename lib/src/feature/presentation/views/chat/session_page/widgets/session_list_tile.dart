@@ -1,6 +1,6 @@
 import 'package:chat_app_using_socket/src/feature/data/models/session/session_model.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/chat_page.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/chat_page/chat_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_page/session_list_page.dart';
 import 'package:flutter/material.dart';
 
 class SessionListTile extends StatelessWidget {

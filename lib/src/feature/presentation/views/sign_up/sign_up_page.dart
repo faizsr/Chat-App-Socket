@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:chat_app_using_socket/src/config/utils/auth_status.dart';
+import 'package:chat_app_using_socket/src/feature/data/data_sources/local/sf_auth_status.dart';
 import 'package:chat_app_using_socket/src/config/utils/validation.dart';
 import 'package:chat_app_using_socket/src/feature/domain/entities/user_entity.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/blocs/auth/auth_bloc.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_list_page.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/views/chat/session_page/session_list_page.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/views/chat/wide_chat_layout.dart';
-import 'package:chat_app_using_socket/src/feature/presentation/views/chat/responsive_widget.dart';
+import 'package:chat_app_using_socket/src/feature/presentation/widgets/responsive_widget.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_filled_button.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_text_button.dart';
 import 'package:chat_app_using_socket/src/feature/presentation/widgets/custom_text_field.dart';
